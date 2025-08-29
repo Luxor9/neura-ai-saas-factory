@@ -26,55 +26,135 @@ A complete, production-ready SaaS platform that automatically generates and mone
 - **User Management** - Registration, authentication, API keys
 - **Service Modals** - Interactive service testing
 
-## 🏗️ Architecture
+## 🏗️ Monorepo Architecture
+
+This is a unified monorepo containing all NEURA AI SaaS Factory components:
 
 ```
 neura-ai-saas-factory/
-├── core/
-│   ├── auth/
-│   │   └── auth_manager.py      # Authentication & API key management
-│   ├── billing/
-│   │   └── billing_manager.py   # Subscriptions & payments
-│   ├── products/
-│   │   └── ai_services.py       # AI service implementations
-│   └── main.py                  # FastAPI application
-├── ui/
-│   └── saas-dashboard/
-│       └── index.html           # Modern SaaS dashboard
-├── requirements.txt             # Dependencies
-├── start.sh                     # Startup script
-└── README.md                    # This file
+├── packages/                      # Organized package structure
+│   ├── api/                      # API Server Package
+│   │   └── core/                 # FastAPI application
+│   │       ├── auth/             # Authentication & API key management
+│   │       ├── billing/          # Subscriptions & payments
+│   │       ├── products/         # AI service implementations
+│   │       ├── agents/           # CrewAI agent system
+│   │       ├── voice/            # Voice command system
+│   │       ├── mobile/           # Mobile API endpoints
+│   │       └── main.py           # FastAPI application entry
+│   ├── audit/                    # LuxoraNova Audit System
+│   │   └── luxoranova_audit.py   # Anaconda environment analysis
+│   ├── ui/                       # User Interface Components
+│   │   ├── saas-dashboard/       # Modern SaaS dashboard
+│   │   ├── mobile/               # Mobile interface
+│   │   └── dashboard/            # Admin dashboard
+│   └── shared/                   # Shared utilities and components
+├── docker/                       # Docker orchestration
+│   └── docker-compose.yml        # Multi-service setup
+├── pyproject.toml                # Unified Python package configuration
+├── workspace.toml                # Monorepo workspace configuration
+├── Makefile                      # Development commands
+├── server.py                     # Unified entry point
+├── start.sh                      # Startup script
+└── README.md                     # This file
 ```
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- Python 3.10 or higher
+- pip (Python package manager)
+- Git
+
 ### 1. Clone and Setup
 ```bash
-git clone <repository-url>
+git clone https://github.com/LUXORANOVA9/neura-ai-saas-factory.git
 cd neura-ai-saas-factory
-chmod +x start.sh
 ```
 
-### 2. Install Dependencies
+### 2. Install Dependencies (Choose One)
+
+#### Option A: Using Make (Recommended)
+```bash
+make install        # Install all dependencies
+make quickstart     # Install deps + setup git hooks
+```
+
+#### Option B: Using pip
+```bash
+pip install -e .                    # Install main package
+pip install -e .[dev,audit,voice]   # Install with optional features
+```
+
+#### Option C: Traditional requirements.txt
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Set Environment Variables
+### 3. Environment Setup
 ```bash
-export JWT_SECRET="your-secret-key"
-export STRIPE_SECRET_KEY="sk_test_your_stripe_key"
+# Copy and customize environment variables
+cp .env.example .env
+# Edit .env with your API keys and configuration
 ```
 
-### 4. Start the Application
+### 4. Start the Services
+
+#### Quick Start (All Services)
 ```bash
-./start.sh
+make dev            # Development mode with hot reload
+# OR
+./start.sh          # Production mode
+```
+
+#### Individual Services
+```bash
+make api-run        # API server only
+make audit-run      # LuxoraNova audit tool
+make docker-up      # All Docker services
 ```
 
 ### 5. Access the Platform
 - **Dashboard**: http://localhost:8000/dashboard
 - **API Docs**: http://localhost:8000/docs
 - **Health Check**: http://localhost:8000/health
+- **SaaS Dashboard**: http://localhost:8000/ui/saas-dashboard/
+- **Mobile UI**: http://localhost:8000/ui/mobile/
+
+## 🛠️ Development Commands
+
+The monorepo includes a comprehensive Makefile for development:
+
+```bash
+# Development
+make dev              # Start development server
+make install          # Install dependencies
+make quickstart       # Setup for new developers
+
+# Code Quality
+make format           # Auto-format code (black + isort)
+make lint             # Run linting (flake8)
+make type-check       # Run type checking (mypy)
+make quality          # Run all quality checks
+
+# Testing
+make test             # Run all tests
+make test-unit        # Unit tests only
+make test-integration # Integration tests only
+make test-coverage    # Tests with coverage report
+
+# Services
+make api-run          # Start API server only
+make audit-run        # Run LuxoraNova audit
+make docker-up        # Start Docker services
+make docker-down      # Stop Docker services
+
+# Utilities
+make clean            # Clean build artifacts
+make deps-tree        # Show dependency tree
+make status           # Show project status
+make help             # Show all commands
+```
 
 ## 📚 API Usage
 

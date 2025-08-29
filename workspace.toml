@@ -1,0 +1,72 @@
+# NEURA AI SaaS Factory - Monorepo Workspace Configuration
+
+[workspace]
+# Define the workspace packages
+packages = [
+    "packages/api",
+    "packages/audit", 
+    "packages/ui",
+    "packages/shared"
+]
+
+# Workspace-wide settings
+[workspace.dependencies]
+# Shared dependencies across all packages
+python = "^3.10"
+pydantic = "^2.0"
+python-dotenv = "^1.0"
+
+[workspace.dev-dependencies]
+pytest = "^7.4"
+black = "^23.0"
+isort = "^5.12"
+flake8 = "^6.0"
+mypy = "^1.5"
+
+[workspace.scripts]
+# Workspace-wide scripts
+dev = "python server.py"
+test = "pytest"
+lint = "flake8 packages/"
+format = "black packages/ && isort packages/"
+audit = "python -m packages.audit.luxoranova_audit"
+
+[workspace.metadata]
+name = "neura-ai-saas-factory"
+description = "Automated AI SaaS services with API key monetization - Monorepo"
+version = "2.0.0"
+authors = ["LUXORANOVA Team <support@neura-ai.com>"]
+homepage = "https://github.com/LUXORANOVA9/neura-ai-saas-factory"
+repository = "https://github.com/LUXORANOVA9/neura-ai-saas-factory"
+documentation = "https://github.com/LUXORANOVA9/neura-ai-saas-factory/blob/main/README.md"
+keywords = ["ai", "saas", "api", "fastapi", "automation", "monorepo"]
+license = "MIT"
+
+[workspace.metadata.packages]
+api = {
+    name = "neura-api",
+    description = "NEURA AI SaaS Factory API Server",
+    main = "packages/api/core/main.py",
+    dependencies = ["fastapi", "uvicorn", "stripe", "pyjwt"]
+}
+
+audit = {
+    name = "luxoranova-audit", 
+    description = "LuxoraNova Anaconda Environment Audit System",
+    main = "packages/audit/luxoranova_audit.py",
+    dependencies = ["crewai", "langchain", "autogen"]
+}
+
+ui = {
+    name = "neura-ui",
+    description = "NEURA AI User Interface Components",
+    main = "packages/ui/",
+    dependencies = []
+}
+
+shared = {
+    name = "neura-shared",
+    description = "Shared utilities and components",
+    main = "packages/shared/",
+    dependencies = ["pydantic", "python-dotenv"]
+}

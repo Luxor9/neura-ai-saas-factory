@@ -1,0 +1,22 @@
+# UI Package Configuration
+[package]
+name = "neura-ui"
+version = "2.0.0"
+description = "NEURA AI User Interface Components"
+
+[package.components]
+saas-dashboard = "Modern SaaS dashboard with Tailwind CSS"
+mobile = "Mobile-optimized interface with responsive design"
+dashboard = "Admin dashboard for agent monitoring"
+
+[package.assets]
+styles = ["**/*.css"]
+scripts = ["**/*.js"]
+templates = ["**/*.html"]
+static = ["**/*.png", "**/*.jpg", "**/*.svg", "**/*.ico"]
+
+[package.metadata]
+framework = "HTML5 + Tailwind CSS + Vanilla JavaScript"
+responsive = true
+mobile-first = true
+accessibility = "WCAG 2.1 AA compliant"

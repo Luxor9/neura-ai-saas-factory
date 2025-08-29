@@ -15,11 +15,14 @@ from datetime import datetime
 # Import our new modules
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from core.auth.auth_manager import AuthManager, APIKeyManager
-from core.billing.billing_manager import BillingManager, PaymentProcessor
-from core.products.ai_services import PRODUCTS
+# Add the root directory to the path for imports
+root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(0, root_dir)
+
+from packages.api.core.auth.auth_manager import AuthManager, APIKeyManager
+from packages.api.core.billing.billing_manager import BillingManager, PaymentProcessor
+from packages.api.core.products.ai_services import PRODUCTS
 
 # Configure logging
 logging.basicConfig(
@@ -44,7 +47,7 @@ app.add_middleware(
 )
 
 # Mount static files (check if directory exists first)
-ui_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "ui")
+ui_directory = os.path.join(root_dir, "packages", "ui")
 if os.path.exists(ui_directory):
     app.mount("/ui", StaticFiles(directory=ui_directory), name="ui")
 

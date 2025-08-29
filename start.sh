@@ -1,38 +1,94 @@
 #!/bin/bash
 
-# NEURA AI SaaS Factory Startup Script
-echo "🚀 Starting NEURA AI SaaS Factory..."
+# NEURA AI SaaS Factory - Unified Monorepo Startup Script
+# This script starts all components of the NEURA AI SaaS Factory
 
-# Set environment variables
-export PYTHONPATH="${PYTHONPATH}:$(pwd)"
-export JWT_SECRET="neura-ai-saas-factory-secret-key-change-in-production"
-export STRIPE_SECRET_KEY="sk_test_your_stripe_key_here"
+set -e
 
-# Create necessary directories
-mkdir -p logs
-mkdir -p data
+echo "🚀 Starting NEURA AI SaaS Factory Monorepo..."
 
-# Install dependencies
-echo "📦 Installing dependencies..."
-pip install -r requirements.txt
+# Function to check if Python is available
+check_python() {
+    if ! command -v python3 &> /dev/null; then
+        echo "❌ Python 3 is required but not installed."
+        exit 1
+    fi
+    echo "✅ Python 3 found"
+}
 
-# Initialize database
-echo "🗄️ Initializing database..."
-python -c "
-from core.auth.auth_manager import AuthManager
-from core.billing.billing_manager import BillingManager
-print('Initializing authentication system...')
-auth = AuthManager()
-print('Initializing billing system...')
-billing = BillingManager()
-print('Database initialized successfully!')
-"
+# Function to install dependencies
+install_dependencies() {
+    echo "📦 Installing dependencies..."
+    if [ -f "pyproject.toml" ]; then
+        pip install -e .
+    else
+        pip install -r requirements.txt
+    fi
+    echo "✅ Dependencies installed"
+}
 
-# Start the FastAPI server
-echo "🌐 Starting FastAPI server..."
-echo "Dashboard will be available at: http://localhost:8000"
-echo "API Documentation: http://localhost:8000/docs"
-echo "SaaS Dashboard: http://localhost:8000/ui/saas-dashboard/"
+# Function to start the API server
+start_api_server() {
+    echo "🔧 Starting NEURA AI API Server..."
+    python server.py &
+    API_PID=$!
+    echo "✅ API Server started (PID: $API_PID)"
+}
 
-# Run the server
-cd core && python main.py
+# Function to start audit service
+start_audit_service() {
+    echo "🔍 LuxoraNova Audit Service is available"
+    echo "   Run: python -m packages.audit.luxoranova_audit"
+}
+
+# Function to display service info
+show_services() {
+    echo ""
+    echo "🌟 NEURA AI SaaS Factory - Services Status"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "🔧 API Server:         http://localhost:8000"
+    echo "📊 Dashboard:          http://localhost:8000/dashboard"
+    echo "📖 API Docs:           http://localhost:8000/docs"
+    echo "💡 Health Check:       http://localhost:8000/health"
+    echo ""
+    echo "🔍 Audit Service:      python -m packages.audit.luxoranova_audit"
+    echo "🎛️  Docker Services:    docker-compose -f docker/docker-compose.yml up"
+    echo ""
+    echo "📱 UI Components:"
+    echo "   • SaaS Dashboard:   packages/ui/saas-dashboard/"
+    echo "   • Mobile UI:        packages/ui/mobile/"
+    echo "   • Admin Dashboard:  packages/ui/dashboard/"
+    echo ""
+    echo "Press Ctrl+C to stop all services"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+}
+
+# Function to cleanup on exit
+cleanup() {
+    echo ""
+    echo "🛑 Shutting down services..."
+    if [ ! -z "$API_PID" ]; then
+        kill $API_PID 2>/dev/null || true
+        echo "✅ API Server stopped"
+    fi
+    echo "👋 NEURA AI SaaS Factory stopped"
+    exit 0
+}
+
+# Set up signal handlers
+trap cleanup SIGINT SIGTERM
+
+# Main execution
+main() {
+    check_python
+    install_dependencies
+    start_api_server
+    start_audit_service
+    show_services
+    
+    # Keep script running
+    wait
+}
+
+# Run main function
+main

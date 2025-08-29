@@ -1,0 +1,185 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neura-ai-saas-factory"
+version = "2.0.0"
+description = "Automated AI SaaS services with API key monetization - Monorepo"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "LUXORANOVA Team", email = "support@neura-ai.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+keywords = ["ai", "saas", "api", "fastapi", "automation", "monorepo"]
+requires-python = ">=3.10"
+dependencies = [
+    # Core Web Framework
+    "fastapi>=0.100.0",
+    "uvicorn[standard]>=0.23.0",
+    "python-socketio>=5.5.0",
+    "aiohttp>=3.8.1",
+    "websockets>=10.0",
+    
+    # Authentication and Security
+    "stripe>=7.0.0",
+    "PyJWT>=2.8.0",
+    "python-jose[cryptography]>=3.3.0",
+    "passlib[bcrypt]>=1.7.4",
+    "python-multipart>=0.0.5",
+    
+    # Database and Storage
+    "chromadb>=0.4.0",
+    "redis>=4.0.0",
+    
+    # AI and ML
+    "openai>=1.0.0",
+    "transformers>=4.30.0",
+    "torch>=2.0.0",
+    "scikit-learn>=1.3.0",
+    "nltk>=3.8.0",
+    "sentence-transformers>=2.2.0",
+    "Pillow>=9.0.0",
+    
+    # Data Processing
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "plotly>=5.15.0",
+    
+    # Web Scraping and Requests
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "selenium>=4.10.0",
+    
+    # Utilities
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+    "aiofiles>=23.0.0",
+    "tenacity>=8.2.0",
+    "psutil>=5.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "httpx>=0.24.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+]
+
+audit = [
+    "crewai>=0.1.0",
+    "langchain>=0.0.300",
+    "autogen>=0.1.0",
+]
+
+voice = [
+    "termgpt>=0.2.0", 
+    "SpeechRecognition>=3.10.0",
+    "pyttsx3>=2.90",
+]
+
+monitoring = [
+    "prometheus-client>=0.17.0",
+    "grafana-api>=1.0.3",
+    "python-json-logger>=2.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/LUXORANOVA9/neura-ai-saas-factory"
+"Bug Reports" = "https://github.com/LUXORANOVA9/neura-ai-saas-factory/issues"
+"Source" = "https://github.com/LUXORANOVA9/neura-ai-saas-factory"
+"Documentation" = "https://github.com/LUXORANOVA9/neura-ai-saas-factory/blob/main/README.md"
+
+[project.scripts]
+neura-server = "packages.api.core.main:main"
+luxoranova-audit = "packages.audit.luxoranova_audit:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["packages*", "core*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["packages", "core"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = [
+    "stripe.*",
+    "chromadb.*",
+    "crewai.*",
+    "langchain.*",
+    "autogen.*",
+    "termgpt.*",
+    "pyttsx3.*",
+    "speech_recognition.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]

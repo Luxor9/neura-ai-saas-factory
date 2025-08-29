@@ -1,0 +1,35 @@
+# API Package Configuration
+[package]
+name = "neura-api"
+version = "2.0.0"
+description = "NEURA AI SaaS Factory API Server"
+main = "core/main.py"
+
+[package.dependencies]
+# Web Framework
+fastapi = ">=0.100.0"
+uvicorn = ">=0.23.0"
+python-socketio = ">=5.5.0"
+websockets = ">=10.0"
+
+# Authentication & Billing
+stripe = ">=7.0.0"
+PyJWT = ">=2.8.0"
+python-jose = ">=3.3.0"
+passlib = ">=1.7.4"
+python-multipart = ">=0.0.5"
+
+# AI Services
+openai = ">=1.0.0"
+transformers = ">=4.30.0"
+scikit-learn = ">=1.3.0"
+
+# Utilities
+pydantic = ">=2.0.0"
+python-dotenv = ">=1.0.0"
+aiofiles = ">=23.0.0"
+requests = ">=2.31.0"
+
+[package.scripts]
+start = "python core/main.py"
+dev = "uvicorn core.main:app --reload"
