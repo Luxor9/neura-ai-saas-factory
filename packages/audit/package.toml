@@ -1,0 +1,30 @@
+# Audit Package Configuration
+[package]
+name = "luxoranova-audit"
+version = "2.0.0"
+description = "LuxoraNova Anaconda Environment Audit System"
+main = "luxoranova_audit.py"
+
+[package.dependencies]
+# AI Agents
+crewai = ">=0.1.0"
+langchain = ">=0.0.300"
+autogen = ">=0.1.0"
+openai = ">=1.0.0"
+
+# Data Processing
+pandas = ">=2.0.0"
+numpy = ">=1.24.0"
+matplotlib = ">=3.7.0"
+
+# System Analysis
+psutil = ">=5.9.0"
+pathlib = "*"
+
+# Utilities
+pydantic = ">=2.0.0"
+python-dotenv = ">=1.0.0"
+
+[package.scripts]
+audit = "python luxoranova_audit.py"
+analyze = "python -m luxoranova_audit"

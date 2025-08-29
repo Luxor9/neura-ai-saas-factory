@@ -1,0 +1,26 @@
+# Shared Package Configuration
+[package]
+name = "neura-shared"
+version = "2.0.0"
+description = "Shared utilities and components across NEURA AI packages"
+
+[package.modules]
+utils = "Common utility functions"
+config = "Configuration management"
+constants = "Shared constants and enums"
+exceptions = "Custom exception classes"
+models = "Shared Pydantic models"
+decorators = "Common decorators"
+
+[package.dependencies]
+pydantic = ">=2.0.0"
+python-dotenv = ">=1.0.0"
+typing-extensions = ">=4.8.0"
+
+[package.exports]
+# Main exports for other packages
+utils = "utils.py"
+config = "config.py"
+constants = "constants.py"
+exceptions = "exceptions.py"
+models = "models.py"
