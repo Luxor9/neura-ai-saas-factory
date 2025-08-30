@@ -39,6 +39,7 @@ authors = ["LUXORANOVA Team <support@neura-ai.com>"]
 homepage = "https://github.com/LUXORANOVA9/neura-ai-saas-factory"
 repository = "https://github.com/LUXORANOVA9/neura-ai-saas-factory"
 documentation = "https://github.com/LUXORANOVA9/neura-ai-saas-factory/blob/main/README.md"
+related_project = "https://github.com/Luxor9/Luxor9.git"
 keywords = ["ai", "saas", "api", "fastapi", "automation", "monorepo"]
 license = "MIT"
 

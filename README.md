@@ -344,6 +344,12 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
+## 🔗 Related Projects
+
+- **Luxor9**: https://github.com/Luxor9/Luxor9.git
+
+---
+
 **Built with ❤️ by the NEURA AI Team**
 
 *Transform your ideas into profitable AI SaaS products in minutes, not months.*
