@@ -108,6 +108,7 @@ monitoring = [
 "Bug Reports" = "https://github.com/LUXORANOVA9/neura-ai-saas-factory/issues"
 "Source" = "https://github.com/LUXORANOVA9/neura-ai-saas-factory"
 "Documentation" = "https://github.com/LUXORANOVA9/neura-ai-saas-factory/blob/main/README.md"
+"Related Project" = "https://github.com/Luxor9/Luxor9.git"
 
 [project.scripts]
 neura-server = "packages.api.core.main:main"
